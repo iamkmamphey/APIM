@@ -33,12 +33,13 @@ const APIMWebsite = () => {
       whatsapp: "https://call.whatsapp.com/video/YUNHjZAXcsi9XzpjK2VCd8"
     },
     gallery: [
-      { id: 1, url: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=800", caption: "Prayer Service" },
-      { id: 2, url: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=800", caption: "Community Outreach" },
-      { id: 3, url: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=800", caption: "Youth Ministry" },
-      { id: 4, url: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800", caption: "Worship Service" },
-      { id: 5, url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800", caption: "Ministry Team" },
-      { id: 6, url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800", caption: "Community Love" }
+      { id: 1, url: "/gallery-1.jpg", caption: "NOT AGAIN - Watch & Pray Event" },
+      { id: 2, url: "/gallery-2.jpg", caption: "Orphanage Outreach - Ghana" },
+      { id: 3, url: "/gallery-3.jpg", caption: "Prophet Emmanuel Boadi" },
+      { id: 4, url: "/gallery-4.jpg", caption: "Prophetess Paulina" },
+      { id: 5, url: "/gallery-5.jpg", caption: "Ministry Leadership" },
+      { id: 6, url: "/gallery-6.jpg", caption: "APIM Leaders" },
+      { id: 7, url: "/gallery-7.jpg", caption: "Pastor Emmanuel" }
     ],
     about: {
       mission: "Our mission is to create a global community united in prayer, demonstrating Christ's love, and facilitating restoration in every life we touch. We believe that through consistent prayer and genuine compassion, we can bring hope and transformation to individuals, families, and communities.",
