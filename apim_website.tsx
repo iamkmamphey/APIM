@@ -50,7 +50,7 @@ const APIMWebsite = () => {
   const [editMode, setEditMode] = useState({});
 
   const handleAdminLogin = () => {
-    if (adminPassword === 'APIM2026') {
+    if (adminPassword === 'ADMIN2026') {
       setIsAdmin(true);
       setShowAdminLogin(false);
       setAdminPassword('');
@@ -599,7 +599,7 @@ const APIMWebsite = () => {
             </button>
           </div>
           <p className="text-sm text-gray-500 mt-6 text-center bg-gray-50 p-3 rounded-lg">
-            Default password: <span className="font-mono font-bold">APIM2026</span>
+            Default password: <span className="font-mono font-bold">ADMIN2026</span>
           </p>
         </div>
       </div>
