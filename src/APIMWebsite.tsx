@@ -400,6 +400,25 @@ const APIMWebsite = () => {
           <p className="text-2xl text-purple-600 font-semibold">We Leave No One Behind</p>
         </div>
 
+        {/* Prophet Section */}
+        <div className="bg-white rounded-lg shadow-xl p-8 mb-12">
+          <div className="grid md:grid-cols-3 gap-8 items-center">
+            <div className="md:col-span-1">
+              <img 
+                src="/prophet.jpg" 
+                alt="Prophet Emmanuel Boadi" 
+                className="w-full rounded-lg shadow-lg object-cover"
+              />
+            </div>
+            <div className="md:col-span-2">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Prophet Emmanuel Boadi</h2>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                Prophet Emmanuel Boadi is an anointed servant of God who, by grace, has walked and worked under a strong prophetic mantle for decades. His ministry is marked by divine utterances that bring clarity, healing, and transformation—changing lives and reshaping destinies. He leads APIM (All People International Ministry), a non-denominational prophetic prayer movement that gathers people from across the globe through online prayer meetings, while also convening powerful face-to-face encounters in Houston, Texas, and Ghana. Through prayer, prophecy, and the power of the Holy Spirit, APIM continues to unite nations and generations in pursuit of God's purpose.
+              </p>
+            </div>
+          </div>
+        </div>
+
         <div className="grid md:grid-cols-2 gap-8 mb-12">
           <div className="bg-white rounded-lg shadow-lg p-8 border-l-4 border-purple-700 relative hover:shadow-xl transition-shadow">
             {isAdmin && (
