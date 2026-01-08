@@ -405,7 +405,7 @@ const APIMWebsite = () => {
           <div className="grid md:grid-cols-3 gap-8 items-center">
             <div className="md:col-span-1">
               <img 
-                src="/prophet.jpg" 
+                src="/prophet.png" 
                 alt="Prophet Emmanuel Boadi" 
                 className="w-full rounded-lg shadow-lg object-cover"
               />
