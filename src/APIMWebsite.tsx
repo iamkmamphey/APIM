@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Heart, Calendar, Users, BookOpen, Phone, Mail, Globe, Menu, X, Edit, Save, Trash2, Plus, MessageCircle } from 'lucide-react';
 
 const APIMWebsite = () => {
@@ -9,6 +9,8 @@ const APIMWebsite = () => {
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [showChatbot, setShowChatbot] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [showSaveSuccess, setShowSaveSuccess] = useState(false);
   
   // Editable content state
   const [content, setContent] = useState({
@@ -50,6 +52,30 @@ const APIMWebsite = () => {
 
   const [editMode, setEditMode] = useState<{[key: string]: boolean}>({});
 
+  // Load saved content from localStorage on mount
+  useEffect(() => {
+    const savedContent = localStorage.getItem('apim-website-content');
+    if (savedContent) {
+      try {
+        setContent(JSON.parse(savedContent));
+      } catch (error) {
+        console.error('Error loading saved content:', error);
+      }
+    }
+  }, []);
+
+  const handleSaveContent = () => {
+    try {
+      localStorage.setItem('apim-website-content', JSON.stringify(content));
+      setHasUnsavedChanges(false);
+      setShowSaveSuccess(true);
+      setTimeout(() => setShowSaveSuccess(false), 3000);
+    } catch (error) {
+      console.error('Error saving content:', error);
+      alert('Error saving changes. Please try again.');
+    }
+  };
+
   const handleAdminLogin = () => {
     if (adminPassword === 'APIM2026') {
       setIsAdmin(true);
@@ -68,6 +94,7 @@ const APIMWebsite = () => {
         [field]: value
       }
     }));
+    setHasUnsavedChanges(true);
   };
 
   const addGalleryImage = () => {
@@ -87,6 +114,7 @@ const APIMWebsite = () => {
               ...prev,
               gallery: [...prev.gallery, { id: Date.now(), url: result, caption }]
             }));
+            setHasUnsavedChanges(true);
           }
         };
         reader.readAsDataURL(file);
@@ -101,6 +129,7 @@ const APIMWebsite = () => {
         ...prev,
         gallery: prev.gallery.filter(img => img.id !== id)
       }));
+      setHasUnsavedChanges(true);
     }
   };
 
@@ -283,6 +312,31 @@ const APIMWebsite = () => {
                   ) : (
                     <p className="text-gray-700">{content.event.dates}</p>
                   )}
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3 bg-teal-50 p-5 rounded-lg shadow-sm border border-teal-100">
+                <Globe className="text-teal-600 mt-1 flex-shrink-0" size={28} />
+                <div className="flex-1">
+                  <h3 className="font-bold text-gray-800 mb-2 text-lg">📍 Location</h3>
+                  <div className="space-y-2">
+                    <a
+                      href={content.links.googleMeet}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-blue-600 hover:text-blue-800 font-medium hover:underline"
+                    >
+                      🌐 Google Meet
+                    </a>
+                    <a
+                      href={content.links.whatsapp}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-green-600 hover:text-green-800 font-medium hover:underline"
+                    >
+                      📱 WhatsApp Call
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -566,9 +620,14 @@ const APIMWebsite = () => {
               Together, we leave no one behind.
             </p>
             <div className="space-y-4">
-              <button className="w-full bg-white text-purple-700 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition shadow-md">
+              <a 
+                href="https://chat.whatsapp.com/I7Ckug8ilxvEpGBSQm1PEh"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-white text-purple-700 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition shadow-md block text-center"
+              >
                 🙏 Join Prayer Group
-              </button>
+              </a>
               <button className="w-full bg-purple-800 text-white py-4 rounded-lg font-bold text-lg hover:bg-purple-900 transition shadow-md">
                 🤝 Partner With Us
               </button>
@@ -597,8 +656,8 @@ const APIMWebsite = () => {
 
   const AdminLoginModal = () => (
     showAdminLogin && (
-      <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-        <div className="bg-white rounded-lg p-8 max-w-md w-full shadow-xl">
+      <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 backdrop-blur-sm" onClick={(e) => e.stopPropagation()}>
+        <div className="bg-white rounded-lg p-8 max-w-md w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
           <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">🔐 Admin Login</h2>
           <input
             type="password"
@@ -607,6 +666,7 @@ const APIMWebsite = () => {
             placeholder="Enter admin password"
             className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 mb-6 text-lg focus:border-blue-500 focus:outline-none"
             onKeyPress={(e) => e.key === 'Enter' && handleAdminLogin()}
+            autoFocus
           />
           <div className="flex gap-4">
             <button
@@ -630,49 +690,45 @@ const APIMWebsite = () => {
     )
   );
 
-  const ChatbotModal = () => (
-    showChatbot && (
-      <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-        <div className="bg-white rounded-lg w-full max-w-3xl h-[80vh] shadow-xl flex flex-col">
-          <div className="bg-gradient-to-r from-purple-700 to-blue-900 text-white p-6 rounded-t-lg flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <MessageCircle size={32} />
-              <div>
-                <h2 className="text-2xl font-bold">Chat with Our Counselor</h2>
-                <p className="text-sm text-purple-100">We're here to help and support you</p>
-              </div>
-            </div>
-            <button
-              onClick={() => setShowChatbot(false)}
-              className="hover:bg-white/20 p-2 rounded-full transition"
-            >
-              <X size={28} />
-            </button>
-          </div>
-          <div className="flex-1 overflow-hidden">
-            <iframe
-              src="https://iamkmn8n.app.n8n.cloud/webhook/3492a80a-b5a7-4ca5-becb-94355122a30c/chat"
-              className="w-full h-full border-0"
-              title="APIM Counselor Chatbot"
-            />
-          </div>
-        </div>
-      </div>
-    )
-  );
+  const ChatbotModal = () => null;
 
   const AdminPanel = () => (
     showAdminPanel && isAdmin && (
       <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 backdrop-blur-sm overflow-y-auto">
         <div className="bg-white rounded-lg w-full max-w-6xl max-h-[90vh] overflow-y-auto shadow-2xl">
           <div className="bg-gradient-to-r from-purple-700 to-blue-900 text-white p-6 rounded-t-lg flex items-center justify-between sticky top-0 z-10">
-            <h2 className="text-3xl font-bold">⚙️ Admin Control Panel</h2>
-            <button
-              onClick={() => setShowAdminPanel(false)}
-              className="hover:bg-white/20 p-2 rounded-full transition"
-            >
-              <X size={28} />
-            </button>
+            <div className="flex items-center gap-4">
+              <h2 className="text-3xl font-bold">⚙️ Admin Control Panel</h2>
+              {hasUnsavedChanges && (
+                <span className="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-semibold animate-pulse">
+                  Unsaved Changes
+                </span>
+              )}
+              {showSaveSuccess && (
+                <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  ✓ Saved Successfully!
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleSaveContent}
+                className={`flex items-center gap-2 px-6 py-3 rounded-lg font-bold shadow-lg transition ${
+                  hasUnsavedChanges 
+                    ? 'bg-green-500 hover:bg-green-600 text-white animate-pulse' 
+                    : 'bg-white/20 hover:bg-white/30 text-white'
+                }`}
+              >
+                <Save size={24} />
+                <span>Save All Changes</span>
+              </button>
+              <button
+                onClick={() => setShowAdminPanel(false)}
+                className="hover:bg-white/20 p-2 rounded-full transition"
+              >
+                <X size={28} />
+              </button>
+            </div>
           </div>
           
           <div className="p-8 space-y-8">
@@ -885,8 +941,14 @@ const APIMWebsite = () => {
             </div>
 
             {/* Save Notice */}
-            <div className="bg-green-50 border-l-4 border-green-600 p-4 rounded-lg">
-              <p className="text-green-800 font-semibold">✅ All changes are automatically saved and reflected on the website immediately.</p>
+            <div className="bg-yellow-50 border-l-4 border-yellow-600 p-6 rounded-lg">
+              <div className="flex items-start gap-3">
+                <Save size={24} className="text-yellow-600 mt-1 flex-shrink-0" />
+                <div>
+                  <p className="text-yellow-900 font-bold text-lg mb-2">⚠️ Remember to Save Your Changes!</p>
+                  <p className="text-yellow-800">Click the <strong>"Save All Changes"</strong> button at the top of this panel to save your edits. Your changes will be preserved and visible on the website after saving.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -906,16 +968,18 @@ const APIMWebsite = () => {
       <AdminPanel />
       
       {/* Floating Chatbot Button */}
-      <button
-        onClick={() => setShowChatbot(true)}
-        className="fixed bottom-24 right-4 bg-gradient-to-r from-purple-700 to-blue-900 text-white p-4 rounded-full shadow-xl hover:shadow-purple-500/50 hover:scale-110 transition-all z-40 group"
+      <a
+        href="https://iamkmn8n.app.n8n.cloud/webhook/3492a80a-b5a7-4ca5-becb-94355122a30c/chat"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-24 right-4 bg-gradient-to-r from-purple-700 to-blue-900 text-white p-4 rounded-full shadow-xl hover:shadow-purple-500/50 hover:scale-110 transition-all z-40 group flex items-center justify-center"
         title="Chat with our counselor"
       >
         <MessageCircle size={32} className="group-hover:rotate-12 transition-transform" />
         <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center animate-pulse">
           💬
         </span>
-      </button>
+      </a>
       
       {isAdmin && (
         <div className="fixed bottom-4 right-4 bg-gradient-to-r from-purple-700 to-blue-900 text-white px-6 py-3 rounded-full shadow-xl font-bold flex items-center gap-2">
