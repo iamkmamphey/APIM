@@ -9,43 +9,59 @@ const APIMWebsite = () => {
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [showChatbot, setShowChatbot] = useState(false);
   
-  // Editable content state
-  const [content, setContent] = useState({
-    event: {
-      title: "Watch And Pray",
-      subtitle: "A 14 Day Watch",
-      time: "11 pm USA 🇺🇸 CST / 5 am GMT",
-      dates: "19th to 31st January 2026",
-      duration: "One Hour",
-      theme: "He Spoke a Parable Unto Them, Saying, Men Ought to Pray Always",
-      subtitle2: "APIM Fresh Start"
-    },
-    contacts: {
-      phone1: "+1 (832) 503-9564",
-      phone2: "+233 55 716 7055",
-      donationContact1: "+233 549 433 163 (Miss Nancy)",
-      donationContact2: "+233 557 167055 (Miss Paulina)"
-    },
-    links: {
-      googleMeet: "https://meet.google.com/usi-fajr-jib",
-      tiktok: "https://vm.tiktok.com/ZMHKwwSJbAj9r-Syq8z/",
-      whatsapp: "https://call.whatsapp.com/video/YUNHjZAXcsi9XzpjK2VCd8"
-    },
-    gallery: [
-      { id: 1, url: "/gallery-1.jpg", caption: "NOT AGAIN - Watch & Pray Event" },
-      { id: 2, url: "/gallery-2.jpg", caption: "Orphanage Outreach - Ghana" },
-      { id: 3, url: "/gallery-3.jpg", caption: "Prophet Emmanuel Boadi" },
-      { id: 4, url: "/gallery-4.jpg", caption: "Prophetess Paulina" },
-      { id: 5, url: "/gallery-5.jpg", caption: "Ministry Leadership" },
-      { id: 6, url: "/gallery-6.jpg", caption: "APIM Leaders" },
-      { id: 7, url: "/gallery-7.jpg", caption: "Pastor Emmanuel" }
-    ],
-    about: {
-      mission: "Our mission is to create a global community united in prayer, demonstrating Christ's love, and facilitating restoration in every life we touch. We believe that through consistent prayer and genuine compassion, we can bring hope and transformation to individuals, families, and communities.",
-      vision: "To be a beacon of hope and spiritual renewal, where no one is left behind. We envision a world where prayer connects hearts, love bridges divides, and restoration brings new beginnings to all who seek God's presence.",
-      values: "Prayer • Love • Restoration • Community • Faith • Hope"
+  // Load saved content from localStorage
+  const loadSavedContent = () => {
+    const saved = localStorage.getItem('apimContent');
+    if (saved) {
+      return JSON.parse(saved);
     }
-  });
+    return {
+      event: {
+        title: "Watch And Pray",
+        subtitle: "A 14 Day Watch",
+        time: "11 pm USA 🇺🇸 CST / 5 am GMT",
+        dates: "19th to 31st January 2026",
+        duration: "One Hour",
+        theme: "He Spoke a Parable Unto Them, Saying, Men Ought to Pray Always",
+        subtitle2: "APIM Fresh Start",
+        location: "Google Meet & WhatsApp"
+      },
+      contacts: {
+        phone1: "+1 (832) 503-9564",
+        phone2: "+233 55 716 7055",
+        donationContact1: "+233 549 433 163 (Miss Nancy)",
+        donationContact2: "+233 557 167055 (Miss Paulina)"
+      },
+      links: {
+        googleMeet: "https://meet.google.com/usi-fajr-jib",
+        tiktok: "https://vm.tiktok.com/ZMHKwwSJbAj9r-Syq8z/",
+        whatsapp: "https://call.whatsapp.com/video/YUNHjZAXcsi9XzpjK2VCd8"
+      },
+      gallery: [
+        { id: 1, url: "/gallery-1.jpg", caption: "NOT AGAIN - Watch & Pray Event" },
+        { id: 2, url: "/gallery-2.jpg", caption: "Orphanage Outreach - Ghana" },
+        { id: 3, url: "/gallery-3.jpg", caption: "Prophet Emmanuel Boadi" },
+        { id: 4, url: "/gallery-4.jpg", caption: "Prophetess Paulina" },
+        { id: 5, url: "/gallery-5.jpg", caption: "Ministry Leadership" },
+        { id: 6, url: "/gallery-6.jpg", caption: "APIM Leaders" },
+        { id: 7, url: "/gallery-7.jpg", caption: "Pastor Emmanuel" }
+      ],
+      about: {
+        mission: "Our mission is to create a global community united in prayer, demonstrating Christ's love, and facilitating restoration in every life we touch. We believe that through consistent prayer and genuine compassion, we can bring hope and transformation to individuals, families, and communities.",
+        vision: "To be a beacon of hope and spiritual renewal, where no one is left behind. We envision a world where prayer connects hearts, love bridges divides, and restoration brings new beginnings to all who seek God's presence.",
+        values: "Prayer • Love • Restoration • Community • Faith • Hope"
+      }
+    };
+  };
+
+  // Editable content state
+  const [content, setContent] = useState(loadSavedContent());
+
+  // Save content to localStorage
+  const saveContent = () => {
+    localStorage.setItem('apimContent', JSON.stringify(content));
+    alert('✅ Content saved successfully!');
+  };
 
   const [editMode, setEditMode] = useState({});
 
@@ -224,14 +240,18 @@ const APIMWebsite = () => {
             <div className="inline-block bg-red-100 text-red-600 px-6 py-2 rounded-full text-sm font-semibold mb-4 uppercase tracking-wide">
               ⭐ Upcoming Event
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-2">
+            <h2 className="text-4xl md:text-5xl font-bold mb-2">
               {editMode.event ? (
                 <input
                   value={content.event.title}
                   onChange={(e) => handleContentEdit('event', 'title', e.target.value)}
                   className="w-full border-2 border-blue-300 rounded px-3 py-2 text-center"
                 />
-              ) : content.event.title}
+              ) : (
+                <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white px-6 py-3 rounded-xl inline-block shadow-lg">
+                  {content.event.title}
+                </span>
+              )}
             </h2>
             <p className="text-2xl text-gray-600 mb-6 font-medium">
               {editMode.event ? (
@@ -312,6 +332,21 @@ const APIMWebsite = () => {
             </div>
           </div>
 
+          <div className="mb-6 text-center">
+            <div className="inline-block bg-gradient-to-r from-purple-50 to-indigo-100 p-4 rounded-xl shadow-sm">
+              <h3 className="font-bold text-gray-800 mb-2 text-lg">📍 Location</h3>
+              {editMode.event ? (
+                <input
+                  value={content.event.location}
+                  onChange={(e) => handleContentEdit('event', 'location', e.target.value)}
+                  className="w-full border-2 border-blue-300 rounded px-3 py-2 text-center"
+                />
+              ) : (
+                <p className="text-gray-700 font-semibold">{content.event.location}</p>
+              )}
+            </div>
+          </div>
+
           <div className="text-center bg-gradient-to-r from-red-500 via-purple-600 to-indigo-600 text-white py-5 rounded-xl shadow-lg">
             <p className="text-2xl font-bold">
               {editMode.event ? (
@@ -363,7 +398,7 @@ const APIMWebsite = () => {
         </div>
 
         {/* Orphanage Support Section */}
-        <div className="mt-12 bg-gradient-to-r from-green-600 via-teal-600 to-emerald-700 text-white rounded-3xl shadow-2xl p-8">
+        <div className="mt-12 bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-800 text-white rounded-3xl shadow-2xl p-8">
           <div className="text-center mb-6">
             <Heart size={56} className="mx-auto mb-4 animate-pulse" />
             <h3 className="text-3xl md:text-4xl font-bold mb-3">Support Our Orphanage Program</h3>
@@ -372,12 +407,12 @@ const APIMWebsite = () => {
           <div className="bg-white/10 backdrop-blur rounded-2xl p-8 shadow-lg">
             <h4 className="font-bold text-xl mb-6 text-center">💝 Donation Contacts</h4>
             <div className="space-y-4 text-lg">
-              <div className="bg-white/20 backdrop-blur p-4 rounded-lg">
-                <p className="font-semibold">📞 {content.contacts.donationContact1}</p>
-              </div>
-              <div className="bg-white/20 backdrop-blur p-4 rounded-lg">
-                <p className="font-semibold">📞 {content.contacts.donationContact2}</p>
-              </div>
+              <a href={`https://wa.me/${content.contacts.donationContact1.match(/\d+/g).join('')}`} target="_blank" rel="noopener noreferrer" className="bg-white/20 backdrop-blur p-4 rounded-lg block hover:bg-white/30 transition cursor-pointer">
+                <p className="font-semibold">📞 WhatsApp: {content.contacts.donationContact1}</p>
+              </a>
+              <a href={`https://wa.me/${content.contacts.donationContact2.match(/\d+/g).join('')}`} target="_blank" rel="noopener noreferrer" className="bg-white/20 backdrop-blur p-4 rounded-lg block hover:bg-white/30 transition cursor-pointer">
+                <p className="font-semibold">📞 WhatsApp: {content.contacts.donationContact2}</p>
+              </a>
             </div>
           </div>
         </div>
@@ -515,10 +550,14 @@ const APIMWebsite = () => {
             <div className="space-y-5">
               <div className="flex items-start gap-4 p-5 bg-blue-50 rounded-xl hover:bg-blue-100 transition-colors">
                 <Phone className="text-blue-600 mt-1 flex-shrink-0" size={28} />
-                <div>
-                  <p className="font-bold text-gray-800 text-lg mb-2">📱 Phone Numbers</p>
-                  <p className="text-gray-700 font-medium">{content.contacts.phone1}</p>
-                  <p className="text-gray-700 font-medium">{content.contacts.phone2}</p>
+                <div className="flex-1">
+                  <p className="font-bold text-gray-800 text-lg mb-3">📱 WhatsApp Contacts</p>
+                  <a href={`https://wa.me/${content.contacts.phone1.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="block text-blue-600 font-semibold hover:underline mb-2">
+                    Prophet: {content.contacts.phone1}
+                  </a>
+                  <a href={`https://wa.me/${content.contacts.phone2.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="block text-purple-600 font-semibold hover:underline">
+                    Prophetess: {content.contacts.phone2}
+                  </a>
                 </div>
               </div>
 
@@ -551,17 +590,17 @@ const APIMWebsite = () => {
 
         <div className="mt-12 bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-shadow">
           <h3 className="text-3xl font-bold text-gray-800 mb-8 text-center">
-            💚 Support Our Orphanage Program in Ghana
+            � Support Our Orphanage Program in Ghana
           </h3>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-gradient-to-br from-green-100 to-green-50 p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+            <a href={`https://wa.me/${content.contacts.donationContact1.match(/\d+/g).join('')}`} target="_blank" rel="noopener noreferrer" className="bg-gradient-to-br from-purple-100 to-purple-50 p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer">
               <h4 className="font-bold text-gray-800 mb-3 text-xl">Contact Person 1</h4>
-              <p className="text-gray-800 text-lg font-medium">{content.contacts.donationContact1}</p>
-            </div>
-            <div className="bg-gradient-to-br from-green-100 to-green-50 p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+              <p className="text-purple-700 text-lg font-semibold">📞 WhatsApp: {content.contacts.donationContact1}</p>
+            </a>
+            <a href={`https://wa.me/${content.contacts.donationContact2.match(/\d+/g).join('')}`} target="_blank" rel="noopener noreferrer" className="bg-gradient-to-br from-purple-100 to-purple-50 p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer">
               <h4 className="font-bold text-gray-800 mb-3 text-xl">Contact Person 2</h4>
-              <p className="text-gray-800 text-lg font-medium">{content.contacts.donationContact2}</p>
-            </div>
+              <p className="text-purple-700 text-lg font-semibold">📞 WhatsApp: {content.contacts.donationContact2}</p>
+            </a>
           </div>
         </div>
       </div>
@@ -660,9 +699,17 @@ const APIMWebsite = () => {
       </button>
       
       {isAdmin && (
-        <div className="fixed bottom-4 right-4 bg-yellow-500 text-white px-6 py-3 rounded-full shadow-xl font-bold animate-pulse">
-          ✓ Admin Mode Active
-        </div>
+        <>
+          <button
+            onClick={saveContent}
+            className="fixed bottom-20 right-4 bg-green-500 text-white px-6 py-3 rounded-full shadow-xl font-bold hover:bg-green-600 transition flex items-center gap-2"
+          >
+            <Save size={20} /> Save All Changes
+          </button>
+          <div className="fixed bottom-4 right-4 bg-yellow-500 text-white px-6 py-3 rounded-full shadow-xl font-bold animate-pulse">
+            ✓ Admin Mode Active
+          </div>
+        </>
       )}
 
       {/* Footer */}
