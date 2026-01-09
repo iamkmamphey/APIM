@@ -23,10 +23,10 @@ const APIMWebsite = () => {
       subtitle2: "APIM Fresh Start"
     },
     contacts: {
-      phone1: "+1 (832) 503-9564",
-      phone2: "+233 55 716 7055",
-      donationContact1: "+233549433163 (Miss Nancy)",
-      donationContact2: "+233557167055 (Miss Paulina)"
+      phone1: "+1 (832) 503-9564 WhatsApp the Prophet",
+      phone2: "+233 55 716 7055 WhatsApp the Prophetess",
+      donationContact1: "+233 549 433 163 (Miss Nancy)",
+      donationContact2: "+233 557 167 055 (Miss Paulina)"
     },
     links: {
       googleMeet: "https://meet.google.com/usi-fajr-jib",
@@ -34,18 +34,19 @@ const APIMWebsite = () => {
       whatsapp: "https://call.whatsapp.com/video/YUNHjZAXcsi9XzpjK2VCd8"
     },
     gallery: [
-      { id: 1, url: "/gallery-1.jpg", caption: "NOT AGAIN - Watch & Pray Event" },
-      { id: 2, url: "/gallery-2.jpg", caption: "Orphanage Outreach - Ghana" },
-      { id: 3, url: "/gallery-3.jpg", caption: "Prophet Emmanuel Boadi" },
-      { id: 4, url: "/gallery-4.jpg", caption: "Prophetess Paulina" },
-      { id: 5, url: "/gallery-5.jpg", caption: "Ministry Leadership" },
-      { id: 6, url: "/gallery-6.jpg", caption: "APIM Leaders" },
-      { id: 7, url: "/gallery-7.jpg", caption: "Pastor Emmanuel" }
+      { id: 1, url: "/gallery-1.jpg", caption: "Orphanage Outreach - Ghana" },
+      { id: 2, url: "/gallery-2.jpg", caption: "On Fire for God" },
+      { id: 3, url: "/The Prophet's Prophet Papa Agyemang.jpg", caption: "The Prophet's Prophet Papa Agyemang" },
+      { id: 4, url: "/gallery-4.jpg", caption: "Prophet Emmanuel Boadi" },
+      { id: 5, url: "/gallery-5.jpg", caption: "Prophetess Paulina" },
+      { id: 6, url: "/gallery-6.jpg", caption: "Fellow Member" },
+      { id: 7, url: "/gallery-7.jpg", caption: "Prophet Emmanuel Boadi" }
     ],
     about: {
       mission: "Our mission is to create a global community united in prayer, demonstrating Christ's love, and facilitating restoration in every life we touch. We believe that through consistent prayer and genuine compassion, we can bring hope and transformation to individuals, families, and communities.",
       vision: "To be a beacon of hope and spiritual renewal, where no one is left behind. We envision a world where prayer connects hearts, love bridges divides, and restoration brings new beginnings to all who seek God's presence.",
-      values: "Prayer • Love • Restoration • Community • Faith • Hope"
+      values: "Prayer • Love • Restoration • Community • Faith • Hope",
+      prophetBio: "Prophet Emmanuel Boadi is a seasoned and anointed servant of God who, by divine grace, has faithfully walked and labored under a strong prophetic mantle for decades. His life and ministry are distinguished by spiritual depth, accuracy in prophetic utterance, and an unwavering commitment to the voice of God. Through divinely inspired declarations, he brings clarity in times of confusion, healing to the brokenhearted, and transformation to individuals and families, resulting in tangible life change and the reshaping of destinies.||He is the visionary leader of APIM (Arena of Prayer International Ministry)—a non-denominational prophetic prayer movement raised by God to restore the altar of prayer and sharpen spiritual sensitivity in this generation. APIM serves as a global gathering point where believers from nations across the world unite through online prayer meetings, while also hosting powerful in-person prophetic encounters in Houston, Texas, and Ghana. These meetings are marked by intense intercession, prophetic release, and undeniable manifestations of the power of the Holy Spirit.||Through prayer, prophecy, teaching, and the operation of spiritual gifts, Prophet Emmanuel Boadi continues to impact lives across cultures and continents. APIM stands as a bridge between nations and generations, calling men and women into alignment with God's purpose, igniting spiritual hunger, and raising a people who walk in faith, obedience, and prophetic insight for such a time as this."
     }
   });
 
@@ -466,9 +467,11 @@ const APIMWebsite = () => {
             </div>
             <div className="md:col-span-2">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Prophet Emmanuel Boadi</h2>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Prophet Emmanuel Boadi is an anointed servant of God who, by grace, has walked and worked under a strong prophetic mantle for decades. His ministry is marked by divine utterances that bring clarity, healing, and transformation—changing lives and reshaping destinies. He leads APIM (All People International Ministry), a non-denominational prophetic prayer movement that gathers people from across the globe through online prayer meetings, while also convening powerful face-to-face encounters in Houston, Texas, and Ghana. Through prayer, prophecy, and the power of the Holy Spirit, APIM continues to unite nations and generations in pursuit of God's purpose.
-              </p>
+              {content.about.prophetBio.split('||').map((paragraph, index) => (
+                <p key={index} className="text-lg text-gray-700 leading-relaxed mt-4">
+                  {paragraph}
+                </p>
+              ))}
             </div>
           </div>
         </div>
@@ -832,6 +835,26 @@ const APIMWebsite = () => {
               </div>
             </div>
 
+            {/* Prophet Bio Section */}
+            <div className="bg-gray-50 rounded-lg p-6 border-l-4 border-indigo-700">
+              <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <BookOpen size={24} className="text-indigo-700" />
+                Prophet Emmanuel Boadi Biography
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Biography (Use || to separate paragraphs)</label>
+                  <textarea
+                    value={content.about.prophetBio}
+                    onChange={(e) => handleContentEdit('about', 'prophetBio', e.target.value)}
+                    className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-indigo-700 focus:outline-none"
+                    rows={12}
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Tip: Use || (double pipe) to separate paragraphs. Each paragraph will display on a new line.</p>
+                </div>
+              </div>
+            </div>
+
             {/* Contact Section */}
             <div className="bg-gray-50 rounded-lg p-6 border-l-4 border-purple-700">
               <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
@@ -925,7 +948,19 @@ const APIMWebsite = () => {
                 {content.gallery.map((image) => (
                   <div key={image.id} className="relative group">
                     <img src={image.url} alt={image.caption} className="w-full h-32 object-cover rounded-lg" />
-                    <p className="text-xs mt-1 text-gray-600">{image.caption}</p>
+                    <input
+                      value={image.caption}
+                      onChange={(e) => {
+                        setContent(prev => ({
+                          ...prev,
+                          gallery: prev.gallery.map(img => 
+                            img.id === image.id ? { ...img, caption: e.target.value } : img
+                          )
+                        }));
+                        setHasUnsavedChanges(true);
+                      }}
+                      className="text-xs mt-1 text-gray-700 w-full border border-gray-300 rounded px-2 py-1 focus:border-purple-700 focus:outline-none"
+                    />
                     <button
                       onClick={() => deleteGalleryImage(image.id)}
                       className="absolute top-1 right-1 bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
