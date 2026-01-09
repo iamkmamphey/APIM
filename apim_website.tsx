@@ -39,13 +39,13 @@ const APIMWebsite = () => {
         whatsapp: "https://call.whatsapp.com/video/YUNHjZAXcsi9XzpjK2VCd8"
       },
       gallery: [
-        { id: 1, url: "/gallery-1.jpg", caption: "NOT AGAIN - Watch & Pray Event", type: "image" },
-        { id: 2, url: "/gallery-2.jpg", caption: "Orphanage Outreach - Ghana", type: "image" },
-        { id: 3, url: "/gallery-3.jpg", caption: "Prophet Emmanuel Boadi", type: "image" },
-        { id: 4, url: "/gallery-4.jpg", caption: "Prophetess Paulina", type: "image" },
-        { id: 5, url: "/gallery-5.jpg", caption: "Ministry Leadership", type: "image" },
-        { id: 6, url: "/gallery-6.jpg", caption: "APIM Leaders", type: "image" },
-        { id: 7, url: "/gallery-7.jpg", caption: "Pastor Emmanuel", type: "image" },
+        { id: 1, url: "/gallery-1.jpg", caption: "Orphanage Outreach - Ghana", type: "image" },
+        { id: 2, url: "/gallery-2.jpg", caption: "On Fire for GOD", type: "image" },
+        { id: 3, url: "/gallery-3.jpg", caption: "The Prophet's Prophet Agyemang", type: "image" },
+        { id: 4, url: "/gallery-4.jpg", caption: "Prophet Emmanuel Boadi", type: "image" },
+        { id: 5, url: "/gallery-5.jpg", caption: "Prophetess Paulina", type: "image" },
+        { id: 6, url: "/gallery-6.jpg", caption: "Fellow Member (KM)", type: "image" },
+        { id: 7, url: "/gallery-7.jpg", caption: "Prophet Emmanuel Boadi", type: "image" },
         { id: 8, url: "/anthem.mp3", caption: "APIM Anthem", type: "audio" }
       ],
       about: {
@@ -307,8 +307,8 @@ const APIMWebsite = () => {
             </div>
 
             <div className="space-y-4">
-              <div className="flex items-start gap-3 bg-gradient-to-r from-green-50 to-green-100 p-5 rounded-xl shadow-sm">
-                <Users className="text-green-600 mt-1 flex-shrink-0" size={28} />
+              <div className="flex items-start gap-3 bg-gradient-to-r from-purple-50 to-purple-100 p-5 rounded-xl shadow-sm">
+                <Users className="text-purple-600 mt-1 flex-shrink-0" size={28} />
                 <div className="flex-1">
                   <h3 className="font-bold text-gray-800 mb-2 text-lg">⏱️ Duration</h3>
                   {editMode.event ? (
@@ -533,7 +533,7 @@ const APIMWebsite = () => {
           <div className="text-center mb-8">
             <button
               onClick={addGalleryImage}
-              className="bg-green-600 text-white px-8 py-3 rounded-xl hover:bg-green-700 flex items-center gap-2 mx-auto shadow-lg hover:shadow-xl transition-all"
+              className="bg-purple-600 text-white px-8 py-3 rounded-xl hover:bg-purple-700 flex items-center gap-2 mx-auto shadow-lg hover:shadow-xl transition-all"
             >
               <Plus size={24} />
               <span className="font-semibold">Add Media (Image/Video/Audio)</span>
@@ -615,8 +615,8 @@ const APIMWebsite = () => {
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 p-5 bg-green-50 rounded-xl hover:bg-green-100 transition-colors">
-                <Mail className="text-green-600 mt-1 flex-shrink-0" size={28} />
+              <div className="flex items-start gap-4 p-5 bg-purple-50 rounded-xl hover:bg-purple-100 transition-colors">
+                <Mail className="text-purple-600 mt-1 flex-shrink-0" size={28} />
                 <div>
                   <p className="font-bold text-gray-800 text-lg mb-2">🌐 Follow Us</p>
                   <p className="text-gray-700">Connect with us on all social media platforms</p>
@@ -756,7 +756,7 @@ const APIMWebsite = () => {
         <>
           <button
             onClick={saveContent}
-            className="fixed bottom-20 right-4 bg-green-500 text-white px-6 py-3 rounded-full shadow-xl font-bold hover:bg-green-600 transition flex items-center gap-2"
+            className="fixed bottom-20 right-4 bg-purple-500 text-white px-6 py-3 rounded-full shadow-xl font-bold hover:bg-purple-600 transition flex items-center gap-2"
           >
             <Save size={20} /> Save All Changes
           </button>
