@@ -21,10 +21,10 @@ const APIMWebsite = () => {
       subtitle2: "APIM Fresh Start"
     },
     contacts: {
-      phone1: "+1 (832) 503-9564" whatsapp the Prophet,
-      phone2: "+233 55 716 7055" whatsapp the <Prophetess></Prophetess>,
-      donationContact1: "+233 549 433 163 (Miss Nancy)" Whaatsapp her,
-      donationContact2: "+233 557 167055 (Miss Paulina) WhatsApp her"
+      phone1: "+1 (832) 503-9564",
+      phone2: "+233 55 716 7055",
+      donationContact1: "+233 549 433 163 (Miss Nancy)",
+      donationContact2: "+233 557 167055 (Miss Paulina)"
     },
     links: {
       googleMeet: "https://meet.google.com/usi-fajr-jib",
