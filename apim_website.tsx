@@ -24,7 +24,8 @@ const APIMWebsite = () => {
         duration: "One Hour",
         theme: "He Spoke a Parable Unto Them, Saying, Men Ought to Pray Always",
         subtitle2: "APIM Fresh Start",
-        location: "Google Meet & WhatsApp"
+        location: "Google Meet & WhatsApp",
+        videoUrl: ""
       },
       contacts: {
         phone1: "+1 (832) 503-9564",
@@ -38,13 +39,14 @@ const APIMWebsite = () => {
         whatsapp: "https://call.whatsapp.com/video/YUNHjZAXcsi9XzpjK2VCd8"
       },
       gallery: [
-        { id: 1, url: "/gallery-1.jpg", caption: "NOT AGAIN - Watch & Pray Event" },
-        { id: 2, url: "/gallery-2.jpg", caption: "Orphanage Outreach - Ghana" },
-        { id: 3, url: "/gallery-3.jpg", caption: "Prophet Emmanuel Boadi" },
-        { id: 4, url: "/gallery-4.jpg", caption: "Prophetess Paulina" },
-        { id: 5, url: "/gallery-5.jpg", caption: "Ministry Leadership" },
-        { id: 6, url: "/gallery-6.jpg", caption: "APIM Leaders" },
-        { id: 7, url: "/gallery-7.jpg", caption: "Pastor Emmanuel" }
+        { id: 1, url: "/gallery-1.jpg", caption: "NOT AGAIN - Watch & Pray Event", type: "image" },
+        { id: 2, url: "/gallery-2.jpg", caption: "Orphanage Outreach - Ghana", type: "image" },
+        { id: 3, url: "/gallery-3.jpg", caption: "Prophet Emmanuel Boadi", type: "image" },
+        { id: 4, url: "/gallery-4.jpg", caption: "Prophetess Paulina", type: "image" },
+        { id: 5, url: "/gallery-5.jpg", caption: "Ministry Leadership", type: "image" },
+        { id: 6, url: "/gallery-6.jpg", caption: "APIM Leaders", type: "image" },
+        { id: 7, url: "/gallery-7.jpg", caption: "Pastor Emmanuel", type: "image" },
+        { id: 8, url: "/anthem.mp3", caption: "APIM Anthem", type: "audio" }
       ],
       about: {
         mission: "Our mission is to create a global community united in prayer, demonstrating Christ's love, and facilitating restoration in every life we touch. We believe that through consistent prayer and genuine compassion, we can bring hope and transformation to individuals, families, and communities.",
@@ -88,21 +90,26 @@ const APIMWebsite = () => {
   const addGalleryImage = () => {
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
-    fileInput.accept = 'image/*';
+    fileInput.accept = 'image/*,video/*,audio/*';
     fileInput.onchange = (e: Event) => {
       const target = e.target as HTMLInputElement;
       const file = target.files?.[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = (event) => {
-          const caption = prompt('Enter image caption:');
+          const caption = prompt('Enter caption:');
           if (caption) {
+            let type = 'image';
+            if (file.type.startsWith('video/')) type = 'video';
+            if (file.type.startsWith('audio/')) type = 'audio';
+            
             setContent(prev => ({
               ...prev,
               gallery: [...prev.gallery, { 
                 id: Date.now(), 
                 url: event.target?.result as string, 
-                caption 
+                caption,
+                type
               }]
             }));
           }
@@ -358,6 +365,34 @@ const APIMWebsite = () => {
               ) : content.event.subtitle2}
             </p>
           </div>
+
+          {/* YouTube Video Section */}
+          {(editMode.event || content.event.videoUrl) && (
+            <div className="mt-6">
+              {editMode.event ? (
+                <div className="bg-red-50 p-4 rounded-xl">
+                  <label className="block font-bold text-gray-800 mb-2">🎥 YouTube Video URL (optional)</label>
+                  <input
+                    value={content.event.videoUrl}
+                    onChange={(e) => handleContentEdit('event', 'videoUrl', e.target.value)}
+                    placeholder="https://www.youtube.com/watch?v=..."
+                    className="w-full border-2 border-blue-300 rounded px-3 py-2"
+                  />
+                  <p className="text-sm text-gray-600 mt-2">Paste YouTube video URL to show below</p>
+                </div>
+              ) : content.event.videoUrl && (
+                <div className="aspect-video rounded-xl overflow-hidden shadow-2xl">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${content.event.videoUrl.includes('youtu.be') ? content.event.videoUrl.split('youtu.be/')[1]?.split('?')[0] : content.event.videoUrl.split('v=')[1]?.split('&')[0]}?autoplay=1&mute=1`}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    title="Event Video"
+                  />
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Join Online Section */}
@@ -501,29 +536,48 @@ const APIMWebsite = () => {
               className="bg-green-600 text-white px-8 py-3 rounded-xl hover:bg-green-700 flex items-center gap-2 mx-auto shadow-lg hover:shadow-xl transition-all"
             >
               <Plus size={24} />
-              <span className="font-semibold">Add New Image</span>
+              <span className="font-semibold">Add Media (Image/Video/Audio)</span>
             </button>
           </div>
         )}
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {content.gallery.map((image) => (
-            <div key={image.id} className="relative group">
+          {content.gallery.map((item) => (
+            <div key={item.id} className="relative group">
               <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all hover:scale-105">
                 <div className="relative overflow-hidden h-64">
-                  <img
-                    src={image.url}
-                    alt={image.caption}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
+                  {item.type === 'video' ? (
+                    <video
+                      src={item.url}
+                      controls
+                      className="w-full h-full object-cover"
+                    />
+                  ) : item.type === 'audio' ? (
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-100 to-indigo-100">
+                      <div className="text-center p-4">
+                        <MessageCircle size={64} className="mx-auto mb-4 text-purple-600" />
+                        <audio
+                          src={item.url}
+                          controls
+                          className="w-full"
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <img
+                      src={item.url}
+                      alt={item.caption}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                  )}
                 </div>
                 <div className="p-5">
-                  <p className="text-center font-bold text-gray-800 text-lg">{image.caption}</p>
+                  <p className="text-center font-bold text-gray-800 text-lg">{item.caption}</p>
                 </div>
               </div>
               {isAdmin && (
                 <button
-                  onClick={() => deleteGalleryImage(image.id)}
+                  onClick={() => deleteGalleryImage(item.id)}
                   className="absolute top-3 right-3 bg-red-600 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg hover:bg-red-700"
                 >
                   <Trash2 size={18} />
