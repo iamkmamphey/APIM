@@ -65,7 +65,7 @@ const APIMWebsite = () => {
     alert('✅ Content saved successfully!');
   };
 
-  const [editMode, setEditMode] = useState({});
+  const [editMode, setEditMode] = useState<{[key: string]: boolean}>({});
 
   const handleAdminLogin = () => {
     if (adminPassword === 'ADMIN2026') {
@@ -77,8 +77,8 @@ const APIMWebsite = () => {
     }
   };
 
-  const handleContentEdit = (section, field, value) => {
-    setContent(prev => ({
+  const handleContentEdit = (section: string, field: string, value: string) => {
+    setContent((prev: any) => ({
       ...prev,
       [section]: {
         ...prev[section],
@@ -103,7 +103,7 @@ const APIMWebsite = () => {
             if (file.type.startsWith('video/')) type = 'video';
             if (file.type.startsWith('audio/')) type = 'audio';
             
-            setContent(prev => ({
+            setContent((prev: any) => ({
               ...prev,
               gallery: [...prev.gallery, { 
                 id: Date.now(), 
@@ -120,11 +120,11 @@ const APIMWebsite = () => {
     fileInput.click();
   };
 
-  const deleteGalleryImage = (id) => {
+  const deleteGalleryImage = (id: number) => {
     if (confirm('Delete this image?')) {
-      setContent(prev => ({
+      setContent((prev: any) => ({
         ...prev,
-        gallery: prev.gallery.filter(img => img.id !== id)
+        gallery: prev.gallery.filter((img: any) => img.id !== id)
       }));
     }
   };
@@ -330,7 +330,7 @@ const APIMWebsite = () => {
                     value={content.event.theme}
                     onChange={(e) => handleContentEdit('event', 'theme', e.target.value)}
                     className="w-full border-2 border-blue-300 rounded px-3 py-2"
-                    rows="3"
+                    rows={3}
                   />
                 ) : (
                   <p className="text-gray-700 italic leading-relaxed">{content.event.theme}</p>
