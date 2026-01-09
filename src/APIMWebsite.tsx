@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Heart, Calendar, Users, BookOpen, Phone, Mail, Globe, Menu, X, Edit, Save, Trash2, Plus, MessageCircle } from 'lucide-react';
+import { Heart, Calendar, Users, BookOpen, Phone, Mail, Globe, Menu, X, Edit, Save, Trash2, Plus } from 'lucide-react';
 
 const APIMWebsite = () => {
   const [currentPage, setCurrentPage] = useState('home');
@@ -7,7 +7,6 @@ const APIMWebsite = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminPassword, setAdminPassword] = useState('');
   const [showAdminLogin, setShowAdminLogin] = useState(false);
-  const [showChatbot, setShowChatbot] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [showSaveSuccess, setShowSaveSuccess] = useState(false);
@@ -342,8 +341,8 @@ const APIMWebsite = () => {
             </div>
 
             <div className="space-y-4">
-              <div className="flex items-start gap-3 bg-green-50 p-5 rounded-lg shadow-sm border border-green-100">
-                <Users className="text-green-600 mt-1 flex-shrink-0" size={28} />
+              <div className="flex items-start gap-3 bg-purple-50 p-5 rounded-lg shadow-sm border border-purple-100">
+                <Users className="text-purple-600 mt-1 flex-shrink-0" size={28} />
                 <div className="flex-1">
                   <h3 className="font-bold text-gray-800 mb-2 text-lg">⏱️ Duration</h3>
                   {editMode.event ? (
@@ -536,7 +535,7 @@ const APIMWebsite = () => {
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white py-16">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-12">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-800 mb-4">📸 Our Gallery</h1>
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-800 mb-4">Our Gallery</h1>
           <p className="text-xl text-gray-600">Capturing moments of faith, love, and community</p>
         </div>
 
@@ -586,7 +585,7 @@ const APIMWebsite = () => {
     <div className="min-h-screen bg-gradient-to-b from-teal-50 to-white py-16">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-12">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-800 mb-4">📞 Contact Us</h1>
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-800 mb-4">Contact Us</h1>
           <p className="text-xl text-gray-600">We'd love to hear from you</p>
         </div>
 
@@ -603,8 +602,8 @@ const APIMWebsite = () => {
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 p-5 bg-green-50 rounded-xl hover:bg-green-100 transition-colors">
-                <Mail className="text-green-600 mt-1 flex-shrink-0" size={28} />
+              <div className="flex items-start gap-4 p-5 bg-purple-50 rounded-xl hover:bg-purple-100 transition-colors">
+                <Mail className="text-purple-600 mt-1 flex-shrink-0" size={28} />
                 <div>
                   <p className="font-bold text-gray-800 text-lg mb-2">🌐 Follow Us</p>
                   <p className="text-gray-700">Connect with us on all social media platforms</p>
@@ -689,8 +688,6 @@ const APIMWebsite = () => {
       </div>
     )
   );
-
-  const ChatbotModal = () => null;
 
   const AdminPanel = () => (
     showAdminPanel && isAdmin && (
@@ -836,9 +833,9 @@ const APIMWebsite = () => {
             </div>
 
             {/* Contact Section */}
-            <div className="bg-gray-50 rounded-lg p-6 border-l-4 border-green-700">
+            <div className="bg-gray-50 rounded-lg p-6 border-l-4 border-purple-700">
               <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                <Phone size={24} className="text-green-700" />
+                <Phone size={24} className="text-purple-700" />
                 Contact Information
               </h3>
               <div className="grid md:grid-cols-2 gap-4">
@@ -847,7 +844,7 @@ const APIMWebsite = () => {
                   <input
                     value={content.contacts.phone1}
                     onChange={(e) => handleContentEdit('contacts', 'phone1', e.target.value)}
-                    className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-green-700 focus:outline-none"
+                    className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-purple-700 focus:outline-none"
                   />
                 </div>
                 <div>
@@ -855,7 +852,7 @@ const APIMWebsite = () => {
                   <input
                     value={content.contacts.phone2}
                     onChange={(e) => handleContentEdit('contacts', 'phone2', e.target.value)}
-                    className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-green-700 focus:outline-none"
+                    className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-purple-700 focus:outline-none"
                   />
                 </div>
                 <div>
@@ -863,7 +860,7 @@ const APIMWebsite = () => {
                   <input
                     value={content.contacts.donationContact1}
                     onChange={(e) => handleContentEdit('contacts', 'donationContact1', e.target.value)}
-                    className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-green-700 focus:outline-none"
+                    className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-purple-700 focus:outline-none"
                   />
                 </div>
                 <div>
@@ -871,7 +868,7 @@ const APIMWebsite = () => {
                   <input
                     value={content.contacts.donationContact2}
                     onChange={(e) => handleContentEdit('contacts', 'donationContact2', e.target.value)}
-                    className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-green-700 focus:outline-none"
+                    className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-purple-700 focus:outline-none"
                   />
                 </div>
               </div>
@@ -964,22 +961,7 @@ const APIMWebsite = () => {
       {currentPage === 'gallery' && <GalleryPage />}
       {currentPage === 'contact' && <ContactPage />}
       <AdminLoginModal />
-      <ChatbotModal />
       <AdminPanel />
-      
-      {/* Floating Chatbot Button */}
-      <a
-        href="https://iamkmn8n.app.n8n.cloud/webhook/3492a80a-b5a7-4ca5-becb-94355122a30c/chat"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-24 right-4 bg-gradient-to-r from-purple-700 to-blue-900 text-white p-4 rounded-full shadow-xl hover:shadow-purple-500/50 hover:scale-110 transition-all z-40 group flex items-center justify-center"
-        title="Chat with our counselor"
-      >
-        <MessageCircle size={32} className="group-hover:rotate-12 transition-transform" />
-        <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center animate-pulse">
-          💬
-        </span>
-      </a>
       
       {isAdmin && (
         <div className="fixed bottom-4 right-4 bg-gradient-to-r from-purple-700 to-blue-900 text-white px-6 py-3 rounded-full shadow-xl font-bold flex items-center gap-2">
